@@ -1,0 +1,267 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "Systeme",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1082121059 { 
+   	label=Utilisateur
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Utilisateur1082121059[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Utilisateur</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   noeudSystemeAccessible: NoeudSysteme [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ distance(n: NoeudSysteme): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ noeudSystemePlusProcheDeuxUtilisateurs(u2: Utilisateur, d: Donnee, noeudPlusOptimal: NoeudSysteme): NoeudSysteme</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_1691732893 { 
+   	label=NoeudSysteme
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   NoeudSysteme1691732893[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)NoeudSysteme</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   capaciteMemoire: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   distance: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   listeArcs: ArrayList&lt;Arc&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   listeNoeuds: ArrayList&lt;Noeud&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ ajouterDonneeNoeudSysteme(d: Donnee)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ noeudPlusProche(d: Donnee, noeudSystemesDejaVu: ArrayList&lt;NoeudSysteme&gt;): NoeudSysteme</TD></TR>
+<TR><TD ALIGN="LEFT" >+ tailleAccepte(d: Donnee): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_2052679051 { 
+   	label=Donnee
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Donnee2052679051[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Donnee</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   noeudSyst: NoeudSysteme [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   taille: int [1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_66098 { 
+   	label=Arc
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Arc66098[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Arc</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   noeudArrive: NoeudSysteme [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   noeudDepart: NoeudSysteme [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   valeur: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ noeudDestination(noeudCourant: NoeudSysteme): NoeudSysteme</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_72717322 { 
+   	label=Systeme
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Systeme72717322[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Systeme</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   donnees: ArrayList&lt;Donnee&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   noeudSystemes: ArrayList&lt;NoeudSysteme&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   utilisateurs: ArrayList&lt;Utilisateur&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ placementDonneeDeuxInteresses(utilisateursContenantDonnee: ArrayList&lt;Utilisateur&gt;, d: Donnee)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ placementDonneeOptimise()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ placementParDonnees()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_75442227 { 
+   	label=Noeud
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Noeud75442227[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Noeud</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   id: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   listeDonnees: ArrayList&lt;Donnee&gt; [0..*]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+subgraph cluster_87672310 { 
+   	label=Dijkstra
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   Dijkstra87672310[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Dijkstra</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ plusCourtChemin(ns: NoeudSysteme): List&lt;Arc&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+
+'edges    
+Arc66098 -> NoeudSysteme1691732893[label="noeudArrive
+[0..1]"];
+Arc66098 -> NoeudSysteme1691732893[label="noeudDepart
+[0..1]"];
+Donnee2052679051 -> NoeudSysteme1691732893[label="noeudSyst
+[0..1]"];
+Noeud75442227 -> Donnee2052679051[label="listeDonnees
+[0..*]"];
+Noeud75442227 -> NoeudSysteme1691732893[arrowhead=none, arrowtail=empty, dir=both];
+Noeud75442227 -> Utilisateur1082121059[arrowhead=none, arrowtail=empty, dir=both];
+NoeudSysteme1691732893 -> Arc66098[label="listeArcs
+[0..*]"];
+NoeudSysteme1691732893 -> Noeud75442227[label="listeNoeuds
+[0..*]"];
+Systeme72717322 -> Donnee2052679051[label="donnees
+[0..*]"];
+Systeme72717322 -> NoeudSysteme1691732893[label="noeudSystemes
+[0..*]"];
+Systeme72717322 -> Utilisateur1082121059[label="utilisateurs
+[0..*]"];
+Utilisateur1082121059 -> NoeudSysteme1691732893[label="noeudSystemeAccessible
+[0..1]"];
+    
+}
+@enduml
