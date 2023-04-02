@@ -121,7 +121,7 @@ subgraph cluster_1691732893 {
 <TR><TD ALIGN="LEFT" >-   listeNoeuds: ArrayList&lt;Noeud&gt; [0..*]</TD></TR>
 <HR/>
 <TR><TD ALIGN="LEFT" >+ ajouterDonneeNoeudSysteme(d: Donnee)</TD></TR>
-<TR><TD ALIGN="LEFT" >+ noeudPlusProche(d: Donnee, noeudSystemesDejaVu: ArrayList&lt;NoeudSysteme&gt;): NoeudSysteme</TD></TR>
+<TR><TD ALIGN="LEFT" >+ noeudPlusProche(d: Donnee): NoeudSysteme</TD></TR>
 <TR><TD ALIGN="LEFT" >+ tailleAccepte(d: Donnee): boolean</TD></TR>
 </TABLE>>
 	style=filled
@@ -252,6 +252,7 @@ Noeud75442227 -> NoeudSysteme1691732893[arrowhead=none, arrowtail=empty, dir=bot
 Noeud75442227 -> Utilisateur1082121059[arrowhead=none, arrowtail=empty, dir=both];
 NoeudSysteme1691732893 -> Arc66098[label="listeArcs
 [0..*]"];
+NoeudSysteme1691732893 -> Dijkstra87672310[label="noeudPlusProche() -> plusCourtChemin()"];
 NoeudSysteme1691732893 -> Noeud75442227[label="listeNoeuds
 [0..*]"];
 Systeme72717322 -> Donnee2052679051[label="donnees

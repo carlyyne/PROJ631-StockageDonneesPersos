@@ -65,18 +65,18 @@ public class Main {
 
         // Noeuds systeme
         NoeudSysteme n1 = new NoeudSysteme(1,50);
-        NoeudSysteme n2 = new NoeudSysteme(2,30);
+        NoeudSysteme n2 = new NoeudSysteme(2,5);
         NoeudSysteme n3 = new NoeudSysteme(3,50);
         NoeudSysteme n4 = new NoeudSysteme(4,40);
-        NoeudSysteme n5 = new NoeudSysteme(5,40);
-        NoeudSysteme n6 = new NoeudSysteme(6,40);
+        NoeudSysteme n5 = new NoeudSysteme(5,5);
+        //NoeudSysteme n6 = new NoeudSysteme(6,40);
         ArrayList<NoeudSysteme> listeNoeudsSysteme = new ArrayList<>();
         listeNoeudsSysteme.add(n1);
         listeNoeudsSysteme.add(n2);
         listeNoeudsSysteme.add(n3);
         listeNoeudsSysteme.add(n4);
         listeNoeudsSysteme.add(n5);
-        listeNoeudsSysteme.add(n6);
+        //listeNoeudsSysteme.add(n6);
 
         // Association d'un noeud systeme à un utilisateur
         u1.setNoeudSystemeAccessible(n1);
@@ -88,7 +88,7 @@ public class Main {
         u7.setNoeudSystemeAccessible(n4);
 
         // Arcs
-        /*Arc a1 = new Arc(1,n1,n5);
+        Arc a1 = new Arc(1,n1,n5);
         Arc a2 = new Arc(3,n1,n4);
         Arc a3 = new Arc(3,n1,n3);
         Arc a4 = new Arc(1,n1,n2);
@@ -97,8 +97,8 @@ public class Main {
         Arc a7 = new Arc(1,n4,n5);
         Arc a8 = new Arc(3,n2,n4);
         Arc a9 = new Arc(1,n3,n4);
-        Arc a10 = new Arc(1,n2,n3);*/
-        Arc a1 = new Arc(1,n1,n5);
+        Arc a10 = new Arc(1,n2,n3);
+        /*Arc a1 = new Arc(1,n1,n5);
         Arc a2 = new Arc(3,n1,n4);
         Arc a3 = new Arc(3,n1,n3);
         Arc a4 = new Arc(1,n1,n2);
@@ -112,7 +112,7 @@ public class Main {
         Arc a12 = new Arc(3,n6,n2);
         Arc a13 = new Arc(3,n6,n1);
         Arc a14 = new Arc(3,n6,n5);
-        Arc a15 = new Arc(1,n6,n4);
+        Arc a15 = new Arc(1,n6,n4);*/
 
         //Définition des arcs accessibles depuis un noeud systeme
         ArrayList<Arc> listeArcs1 = new ArrayList<>();
@@ -125,39 +125,39 @@ public class Main {
         listeArcs1.add(a2);
         listeArcs1.add(a3);
         listeArcs1.add(a4);
-        listeArcs1.add(a13);
+        //listeArcs1.add(a13);
         listeArcs2.add(a4);
         listeArcs2.add(a5);
         listeArcs2.add(a8);
         listeArcs2.add(a10);
-        listeArcs2.add(a12);
+        //listeArcs2.add(a12);
         listeArcs3.add(a3);
         listeArcs3.add(a6);
         listeArcs3.add(a9);
         listeArcs3.add(a10);
-        listeArcs3.add(a11);
+        //listeArcs3.add(a11);
         listeArcs4.add(a2);
         listeArcs4.add(a7);
         listeArcs4.add(a8);
         listeArcs4.add(a9);
-        listeArcs4.add(a15);
+        //listeArcs4.add(a15);
         listeArcs5.add(a1);
         listeArcs5.add(a5);
         listeArcs5.add(a6);
         listeArcs5.add(a7);
-        listeArcs5.add(a14);
-        listeArcs6.add(a11);
-        listeArcs6.add(a12);
-        listeArcs6.add(a13);
-        listeArcs6.add(a14);
-        listeArcs6.add(a15);
+        //listeArcs5.add(a14);
+        //listeArcs6.add(a11);
+        //listeArcs6.add(a12);
+        //listeArcs6.add(a13);
+        //listeArcs6.add(a14);
+        //listeArcs6.add(a15);
 
         n1.setListeArcs(listeArcs1);
         n2.setListeArcs(listeArcs2);
         n3.setListeArcs(listeArcs3);
         n4.setListeArcs(listeArcs4);
         n5.setListeArcs(listeArcs5);
-        n6.setListeArcs(listeArcs6);
+        //n6.setListeArcs(listeArcs6);
 
         //Définition des noeuds accessibles depuis un noeud systeme
         ArrayList<Noeud> listeNoeuds1 = new ArrayList<>();
@@ -173,31 +173,31 @@ public class Main {
         listeNoeuds1.add(n3);
         listeNoeuds1.add(n4);
         listeNoeuds1.add(n5);
-        listeNoeuds1.add(n6);
+        //listeNoeuds1.add(n6);
         listeNoeuds2.add(u4);
         listeNoeuds2.add(n1);
         listeNoeuds2.add(n3);
         listeNoeuds2.add(n4);
         listeNoeuds2.add(n5);
-        listeNoeuds2.add(n6);
+        //listeNoeuds2.add(n6);
         listeNoeuds3.add(u5);
         listeNoeuds3.add(n1);
         listeNoeuds3.add(n2);
         listeNoeuds3.add(n4);
         listeNoeuds3.add(n5);
-        listeNoeuds3.add(n6);
+        //listeNoeuds3.add(n6);
         listeNoeuds4.add(u6);
         listeNoeuds4.add(u7);
         listeNoeuds4.add(n1);
         listeNoeuds4.add(n2);
         listeNoeuds4.add(n3);
         listeNoeuds4.add(n5);
-        listeNoeuds4.add(n6);
+        //listeNoeuds4.add(n6);
         listeNoeuds5.add(n1);
         listeNoeuds5.add(n2);
         listeNoeuds5.add(n3);
         listeNoeuds5.add(n4);
-        listeNoeuds5.add(n6);
+        //listeNoeuds5.add(n6);
         listeNoeuds6.add(n1);
         listeNoeuds6.add(n2);
         listeNoeuds6.add(n3);
@@ -209,7 +209,7 @@ public class Main {
         n3.setListeNoeuds(listeNoeuds3);
         n4.setListeNoeuds(listeNoeuds4);
         n5.setListeNoeuds(listeNoeuds5);
-        n6.setListeNoeuds(listeNoeuds6);
+        //n6.setListeNoeuds(listeNoeuds6);
 
         // Systeme
         Systeme systeme = new Systeme();
@@ -219,6 +219,7 @@ public class Main {
 
         /***************************************** QUESTION 2/3/4 *****************************************/
 
+        // Affichage du MENU
         Scanner scanner = new Scanner(System.in);
         System.out.println("Menu:");
         System.out.println("1 - Placement de données au plus près des utilisateurs (deux utilisateurs peuvent être intéressés par la même donnée)");
@@ -244,8 +245,8 @@ public class Main {
         System.out.println("Capacité restante du Noeud Système 4: " + n4.getCapaciteMemoire());
         System.out.println("Données Noeud Système 5: " + n5.getDonnees());
         System.out.println("Capacité restante du Noeud Système 5: " + n5.getCapaciteMemoire());
-        System.out.println("Données Noeud Système 6: " + n6.getDonnees());
-        System.out.println("Capacité restante du Noeud Système 6: " + n6.getCapaciteMemoire());
+        //System.out.println("Données Noeud Système 6: " + n6.getDonnees());
+        //System.out.println("Capacité restante du Noeud Système 6: " + n6.getCapaciteMemoire());
 
     }
 }

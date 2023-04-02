@@ -56,25 +56,30 @@ public class NoeudSysteme extends Noeud{
         return this.getCapaciteMemoire() >= d.getTaille();
     }
 
-    // Enregistrer l'emplacement des données
+    // Enregistrer l'emplacement des données d'un noeud système
     public void ajouterDonneeNoeudSysteme (Donnee d){
-        if (this!=null) {
-            ArrayList<Donnee> donneesSysteme = this.getDonnees();
-            donneesSysteme.add(d);
-            this.setListeDonnees(donneesSysteme);
-            d.setNoeudSyst(this);
-            this.setCapaciteMemoire(this.getCapaciteMemoire() - d.getTaille());
-        }
+        // ajout de la nouvelle donnée à la liste des données du noeud système
+        ArrayList<Donnee> donneesSysteme = this.getDonnees();
+        donneesSysteme.add(d);
+        this.setListeDonnees(donneesSysteme);
+
+        // met à jour le noeud système de la donnée
+        d.setNoeudSyst(this);
+
+        // modifie la capacité du noeud système
+        this.setCapaciteMemoire(this.getCapaciteMemoire() - d.getTaille());
     }
 
-    // cherche le noeud le plus proche d'un noeud systeme pouvant contenur la donnee
-    public NoeudSysteme noeudPlusProche(Donnee d,ArrayList<NoeudSysteme> noeudSystemesDejaVu){
+    // cherche le noeud le plus proche d'un noeud systeme pouvant contenir la donnee
+    public NoeudSysteme noeudPlusProche(Donnee d){
         NoeudSysteme plusProche = null;
 
         if (this!=null) {
 
             Dijkstra dijkstra = new Dijkstra();
             ArrayList<NoeudSysteme> noeudsSysteme = new ArrayList<>();
+
+            //determination des chemins les plus cours
             List<Arc> arcs = dijkstra.plusCourtChemin(this);
 
 
@@ -85,19 +90,22 @@ public class NoeudSysteme extends Noeud{
                 }
             }
 
-            //on regarde si la donnée peut être contenue dans le noeud
+            //parmis les chemins les plus courts (arcs) on regarde quel noeud destination peut contenir la donnée
             for (Arc a : arcs) {
-                if (a.noeudDestination(this).getCapaciteMemoire() >= d.getTaille()) {
+                if (a.noeudDestination(this).getCapaciteMemoire() < d.getTaille()) {
+                    noeudsSysteme.remove(a.noeudDestination(this)); // enleve les noeuds systèmes qui ont déjà été traités
+                }else{
                     plusProche = a.noeudDestination(this);
-                    plusProche.setDistance(1); // mise a jour de la distance du noeud le plus proche
+                    break;
                 }
             }
 
+            // si aucun noeud parmis ceux les plus proches ne peut contenir la donnee on parcours les autres noeuds systèmes
             if (plusProche == null) {
                 for (NoeudSysteme n : noeudsSysteme) {
-                    if (!(n.getCapaciteMemoire() >= d.getTaille()) && !noeudSystemesDejaVu.contains(n)) {
-                        noeudSystemesDejaVu.add(n);
-                        dijkstra.plusCourtChemin(n);
+                    // le noeud peut contenir la donnée
+                    if (n.tailleAccepte(d)) {
+                        plusProche = n;
                     }
                 }
             }

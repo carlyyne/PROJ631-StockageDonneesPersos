@@ -8,7 +8,7 @@ public class Dijkstra {
     public List<Arc> plusCourtChemin(NoeudSysteme ns){
         ArrayList<NoeudSysteme> noeudsSysteme = new ArrayList<>();
         ArrayList<Arc> arcsNoeudSysteme = ns.getListeArcs();
-        PriorityQueue<NoeudSysteme> pq = new PriorityQueue<>(Comparator.comparingInt(node -> node.getDistance()));
+        PriorityQueue<NoeudSysteme> pq = new PriorityQueue<>(Comparator.comparingInt(NoeudSysteme::getDistance));
         ArrayList<NoeudSysteme> visited = new ArrayList<>();
 
         // distance du noeud courrant à 0 et ajout dans la liste pq
@@ -59,11 +59,8 @@ public class Dijkstra {
             }
         }
 
-        Collections.sort(visited, new Comparator<NoeudSysteme>() {
-            public int compare(NoeudSysteme n1, NoeudSysteme n2) {
-                return Integer.compare(n1.getDistance(), n2.getDistance());
-            }
-        });
+        // trie les noeuds visités par distance croissante
+        visited.sort(Comparator.comparingInt(NoeudSysteme::getDistance));
 
         // arc avec la plus petite distance
         ArrayList<NoeudSysteme> noeudSystemesPetiteDistance = new ArrayList<>();
@@ -75,7 +72,6 @@ public class Dijkstra {
         }
 
         List<Arc> PlusCourtChemin = new ArrayList<>();
-
         for (NoeudSysteme node : noeudSystemesPetiteDistance) { // parcours des noeud visités avec la plus petite distance
             for (Arc arc : arcsNoeudSysteme) {
                  if (arc.noeudDestination(ns).equals(node)) {

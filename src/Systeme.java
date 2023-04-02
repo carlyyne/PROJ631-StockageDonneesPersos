@@ -35,38 +35,47 @@ public class Systeme {
     // priorité: toutes les données d'un utilisateur sont placées dans son noeud accessible si possible
     public void placementParDonnees(){
         ArrayList<Donnee> donnees = getDonnees(); // triee par id lors de sa creation
-        ArrayList<Utilisateur> utilisateurs = getUtilisateurs();
+        ArrayList<Utilisateur> utilisateurs = getUtilisateurs(); // liste de tous les utilisateurs du système
         ArrayList<Utilisateur>  utilisateursContenantDonnee = new ArrayList<>();
 
+        // parcourir une première fois les données
         for(Donnee d: donnees){
+            // verifier que la donnee n'a pas de noeud système associé
             if (d.getNoeudSyst()==null){
+                // parcourir les utilisateurs et vérifier si d'autres utilisateurs contiennent la même donnée
                 for (Utilisateur u: utilisateurs){
                     if(u.getListeDonnees().contains(d)){
-                        utilisateursContenantDonnee.add(u);
+                        utilisateursContenantDonnee.add(u); // si oui: l'ajouter dans la liste utilisateursContenantDonnee
                     }
                 }
+                // verifier si un seul utilisateur possède la donnée
                 if (utilisateursContenantDonnee.size() == 1) {
-                    Utilisateur ud = utilisateursContenantDonnee.get(0);
-                    if (ud.getNoeudSystemeAccessible().tailleAccepte(d)) {
+                    Utilisateur ud = utilisateursContenantDonnee.get(0); // recupérer l'utilisateur en question
+                    if (ud.getNoeudSystemeAccessible().tailleAccepte(d)) { // verifier si le noeud système accessible depuis l'utilisateur peut contenir la donnée
+                        // si oui: ajouter la donnée au noeud systeme et réinitialiser la liste des utilisateurs contenant la donnée
                         ud.getNoeudSystemeAccessible().ajouterDonneeNoeudSysteme(d);
-                        utilisateursContenantDonnee.remove(ud);
+                        utilisateursContenantDonnee.clear();
                     } else{
-                        utilisateursContenantDonnee.remove(ud);
+                        // si non: réinitialiser tout de même la liste: nous traitons les cas où il faut placer la donnée dans un autre noeud que le noeud accessible depuis l'utilisateur plus tard
+                        utilisateursContenantDonnee.clear();
                     }
                 } else {
+                    // si deux utilisateurs possèdent la donnée: utiliser la méthode permettant de placer la donnée dont deux utilisateurs sont intéressés
                     placementDonneeDeuxInteresses(utilisateursContenantDonnee, d);
                     utilisateursContenantDonnee.clear();
                 }
             }
         }
 
+        //parcours des données pour la seconde fois: nous traitons les cas où il faut placer la donnée dans un autre noeud que le noeud accessible depuis l'utilisateur
         for(Donnee d: donnees) {
             if (d.getNoeudSyst()==null){
                 for (Utilisateur u: utilisateurs) {
                     if (u.getListeDonnees().contains(d)) {
-                        ArrayList<NoeudSysteme> noeudSystemesDejaVu = new ArrayList<>();
-                        NoeudSysteme plusProche = u.getNoeudSystemeAccessible().noeudPlusProche(d,noeudSystemesDejaVu);
+                        // recherche du noeud le plus proche grâce à la méthode noeudPlusProche()
+                        NoeudSysteme plusProche = u.getNoeudSystemeAccessible().noeudPlusProche(d);
                         if (plusProche != null) {
+                            // ajouter la donnée au noeud le plus proche si c'est possible
                             plusProche.ajouterDonneeNoeudSysteme(d);
                         }
                     }
@@ -76,32 +85,29 @@ public class Systeme {
     }
 
 
-    // place une donnee dont deux Utilisateurs sont interresés
+    // place une donnee dont deux Utilisateurs sont interressés
     public void placementDonneeDeuxInteresses( ArrayList<Utilisateur> utilisateursContenantDonnee, Donnee d) {
         NoeudSysteme plusProche;
         Utilisateur utilisateur1 = utilisateursContenantDonnee.get(0);
         Utilisateur utilisateur2 = utilisateursContenantDonnee.get(1);
+
+        // recherche le noeud le plus proche entre les deux utilisateurs
         plusProche = utilisateur1.noeudSystemePlusProcheDeuxUtilisateurs(utilisateur2,d,utilisateur1.getNoeudSystemeAccessible());
+
+        //ajout du noeud le plus proche
         plusProche.ajouterDonneeNoeudSysteme(d);
     }
 
     public void placementDonneeOptimise() {
+        // recuperation de toutes les données et de tous les noeuds système
         ArrayList<NoeudSysteme> noeudSysteme = getNoeudSystemes();
         ArrayList<Donnee> donnees = getDonnees();
 
         // tri des Noeuds Systeme (sac à dos) par ordre croissant
-        Collections.sort(noeudSysteme, new Comparator<NoeudSysteme>() {
-            public int compare(NoeudSysteme n1, NoeudSysteme n2) {
-                return Integer.compare(n1.getCapaciteMemoire(), n2.getCapaciteMemoire());
-            }
-        });
+        noeudSysteme.sort(Comparator.comparingInt(NoeudSysteme::getCapaciteMemoire));
 
         // tri des donnees par ordre decroissant
-        Collections.sort(donnees, new Comparator<Donnee>() {
-            public int compare(Donnee d1, Donnee d2) {
-                return Integer.compare(d2.getTaille(), d1.getTaille());
-            }
-        });
+        donnees.sort((d1, d2) -> Integer.compare(d2.getTaille(), d1.getTaille()));
 
         for (NoeudSysteme ns : noeudSysteme) {
 
@@ -117,21 +123,23 @@ public class Systeme {
 
             // parcours des donnees restantes (celles qui n'avaient pas la meme taille que l'un des noeuds systemes)
             HashMap<ArrayList<Donnee>, Integer> tailles = new HashMap<>(); // liste contenant toutes les possibilités
-            for (Donnee d : donnees) {
-                // création d'une liste de donnees de capacité suffisante pour le noeud système
+            //for (Donnee d : donnees) {
+                // création d'une liste permettant de faire des tests sur les combinaisons de donnees de capacité suffisante pour le noeud système
                 ArrayList<Donnee> donneesTest = new ArrayList<>();
+                // taille totale des combinaisons de données initialisée à 0
                 int taille = 0;
-                for (Donnee d2 : donnees) {
-                    if (taille + d2.getTaille() <= ns.getCapaciteMemoire()) {
-                        taille += d2.getTaille();
-                        donneesTest.add(d2);
+                //parcours de toutes les données pour trouver la meilleure combinaison
+                for (Donnee D : donnees) {
+                    if (taille + D.getTaille() <= ns.getCapaciteMemoire()) {
+                        taille += D.getTaille();
+                        donneesTest.add(D);
                     }
                 }
                 // ajout de cette liste à la map des tailles possibles
                 if (!donneesTest.isEmpty()) {
                     tailles.put(donneesTest, taille);
                 }
-            }
+            //}
 
             // recherche de la liste de données avec la taille maximale
             ArrayList<Donnee> donneesRecuperees = new ArrayList<>();

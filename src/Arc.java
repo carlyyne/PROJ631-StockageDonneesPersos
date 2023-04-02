@@ -12,6 +12,7 @@ public class Arc {
         return valeur;
     }
 
+    // cherche le noeud destination d'un noeud systeme
     public NoeudSysteme noeudDestination(NoeudSysteme noeudCourant){
         NoeudSysteme noeudDestination = this.noeudArrive;
         if (noeudDestination == noeudCourant){
